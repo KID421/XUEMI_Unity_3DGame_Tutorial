@@ -398,9 +398,11 @@ MonoBehaviour:
   pointShake: {fileID: 178896170}
   pointShakeRig: {fileID: 178896169}
   houses:
-  - {fileID: 1983867327535612495, guid: cd8fc4a8c7bf9b947a44c30ed7ef05c2, type: 3}
+  - {fileID: 3012548622250720925, guid: 37b71deba6ea0294bab518dc3a47b5a6, type: 3}
   - {fileID: 4315539375642283852, guid: fd8f0b8dc6fb6c04993d8dc88e47b7aa, type: 3}
   - {fileID: 3012548622250720925, guid: 37b71deba6ea0294bab518dc3a47b5a6, type: 3}
+  shakePower: 2
+  myCamera: {fileID: 1373420389}
 --- !u!1001 &307862188
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2567,7 +2569,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1373420386}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalPosition: {x: 0, y: 0.4, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
