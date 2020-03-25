@@ -270,9 +270,10 @@ GameObject:
   - component: {fileID: 271336043}
   - component: {fileID: 271336042}
   - component: {fileID: 271336041}
+  - component: {fileID: 271336045}
   m_Layer: 0
   m_Name: "\u5730\u677F"
-  m_TagString: Untagged
+  m_TagString: "\u5931\u6557\u5340\u57DF"
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -351,6 +352,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &271336045
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 271336040}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0.1, z: 0}
 --- !u!1 &289290176
 GameObject:
   m_ObjectHideFlags: 0
@@ -398,11 +412,17 @@ MonoBehaviour:
   pointShake: {fileID: 178896170}
   pointShakeRig: {fileID: 178896169}
   houses:
-  - {fileID: 3012548622250720925, guid: 37b71deba6ea0294bab518dc3a47b5a6, type: 3}
+  - {fileID: 1983867327535612495, guid: cd8fc4a8c7bf9b947a44c30ed7ef05c2, type: 3}
   - {fileID: 4315539375642283852, guid: fd8f0b8dc6fb6c04993d8dc88e47b7aa, type: 3}
   - {fileID: 3012548622250720925, guid: 37b71deba6ea0294bab518dc3a47b5a6, type: 3}
   shakePower: 2
   myCamera: {fileID: 1373420389}
+  checkWall: {fileID: 782321359491771263, guid: a1cf12fbe72f7ea41a1a6441de8fa56a,
+    type: 3}
+  final: {fileID: 2046878416}
+  textHouseCount: {fileID: 1819153249}
+  textBest: {fileID: 1931584459}
+  textCurrent: {fileID: 557563710}
 --- !u!1001 &307862188
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3243,7 +3263,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.20825917, g: 0.30365407, b: 0.3773585, a: 1}
+  m_Color: {r: 0.20825917, g: 0.30365407, b: 0.3773585, a: 0.78431374}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:

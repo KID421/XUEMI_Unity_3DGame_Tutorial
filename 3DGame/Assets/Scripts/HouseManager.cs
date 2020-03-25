@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;           // 引用 介面 API
 
 public class HouseManager : MonoBehaviour
 {
@@ -18,6 +19,16 @@ public class HouseManager : MonoBehaviour
     public float shakePower = 2;
     [Header("攝影機")]
     public Transform myCamera;
+    [Header("檢查遊戲失敗牆壁")]
+    public Transform checkWall;
+    [Header("結算畫面")]
+    public GameObject final;
+    [Header("蓋房子數量文字介面")]
+    public Text textHouseCount;
+    [Header("最佳數量文字介面")]
+    public Text textBest;
+    [Header("本次數量文字介面")]
+    public Text textCurrent;
 
     /// <summary>
     /// 儲存生成出來的房子
@@ -31,6 +42,14 @@ public class HouseManager : MonoBehaviour
     /// 房子總高度
     /// </summary>
     private float height;
+    /// <summary>
+    /// 第一個房子
+    /// </summary>
+    private Transform firstHouse;
+    /// <summary>
+    /// 房子總數
+    /// </summary>
+    private int count;
 
     private void Start()
     {
@@ -68,12 +87,23 @@ public class HouseManager : MonoBehaviour
     {
         tempHouse.transform.SetParent(null);                        // 暫存房子.變形.設定父物件(無)
         tempHouse.GetComponent<Rigidbody>().isKinematic = false;    // 暫存房子.取得元件<剛體>().運動學 = false
+        tempHouse.GetComponent<House>().down = true;                // 暫存房子.取得元件<房子>().是否降落中 = true
         Invoke("CreateHouse", 1);                                   // 延遲調用函式("函式名稱"，延遲時間)
         startHouse = true;                                          // 開始蓋房子
 
         // 房子總高度 遞增指定 暫存房子.取得元件<盒形碰撞器>().尺寸.y * 房子尺寸.y
         // 有些房子有縮放，例如大房子縮小到 0.7 所以實際尺寸為碰撞器 * 尺寸
         height += tempHouse.GetComponent<BoxCollider>().size.y * tempHouse.transform.localScale.y;
+
+        if (!firstHouse)                                            // 如果 還沒有第一個房子
+        {
+            firstHouse = tempHouse.transform;                       // 第一個房子 = 暫存房子.變形
+            Invoke("CreateCheckWall", 1.2f);                        // 延遲調用函式("建立檢查遊戲失敗牆壁", 1.2 秒)
+            Destroy(firstHouse.GetComponent<House>());              // 刪除(第一個房子.取得元件<房子>())
+        }
+
+        count++;                                                    // 房子總數遞增
+        textHouseCount.text = "房子數量：" + count;                  // 蓋房子數量文字介面.文字 = "房子數量：" + 房子總數
     }
 
     /// <summary>
@@ -95,5 +125,29 @@ public class HouseManager : MonoBehaviour
             // 懸掛房子物件.座標 = 三維向量.插值(懸掛房子物件.座標，懸掛房子物件新座標，0.3 * 速度 * 一個影格時間)
             pointSuspention.position = Vector3.Lerp(pointSuspention.position, posSus, 0.3f * 10 * Time.deltaTime);
         }
+    }
+
+    /// <summary>
+    /// 建立檢查遊戲失敗牆壁
+    /// </summary>
+    private void CreateCheckWall()
+    {
+        // 生成(檢查遊戲失敗牆壁，第一個房子.座標，零角度)
+        Instantiate(checkWall, firstHouse.position, Quaternion.identity);
+    }
+
+    /// <summary>
+    /// 遊戲結束：顯示結算畫面
+    /// </summary>
+    public void GameOver()
+    {
+        final.SetActive(true);                                         // 結算畫面.啟動設定(顯示)
+
+        textCurrent.text = "本次數量：" + count;                       // 本次數量文字介面.文字 = "本次數量： + 房子總數
+
+        if (count > PlayerPrefs.GetInt("最佳數量"))                    // 如果 房子總數 > 玩家參考.取得整數("蓋房子最佳數量")
+            PlayerPrefs.SetInt("最佳數量", count);                     // 玩家參考.設定整數("蓋房子最佳數量"，房子總數)
+
+        textBest.text = "最佳數量：" + PlayerPrefs.GetInt("最佳數量");  // 最佳數量文字介面.文字 = "最佳數量：" + 玩家參考.取得整數("蓋房子最佳數量")
     }
 }
