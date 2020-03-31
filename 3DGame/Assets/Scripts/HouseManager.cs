@@ -60,6 +60,10 @@ public class HouseManager : MonoBehaviour
     /// 房子管理器
     /// </summary>
     private SoundManager soundManager;
+    /// <summary>
+    /// 遊戲結束
+    /// </summary>
+    private bool gameOver;
 
     private void Start()
     {
@@ -80,7 +84,14 @@ public class HouseManager : MonoBehaviour
     private void CreateHouse()
     {
         // 儲存生出來的房子 = 實例化(房子預製物陣列[第一個]，晃動位置)
-        tempHouse = Instantiate(houses[0], pointShake);
+        // 判斷數量調整生成房子：小於 5 第一個，小於 10 第二個，其他第三個
+        if (count < 5)
+            tempHouse = Instantiate(houses[0], pointShake);
+        else if (count < 10)
+            tempHouse = Instantiate(houses[1], pointShake);
+        else
+            tempHouse = Instantiate(houses[2], pointShake);
+
         soundManager.PlaySound(soundCreateHouse);
     }
 
@@ -98,6 +109,8 @@ public class HouseManager : MonoBehaviour
     /// </summary>
     public void HouseDown()
     {
+        if (gameOver || !tempHouse) return;                         // 如果 遊戲結束 或者 目前沒有房子 跳出
+
         tempHouse.transform.SetParent(null);                        // 暫存房子.變形.設定父物件(無)
         tempHouse.GetComponent<Rigidbody>().isKinematic = false;    // 暫存房子.取得元件<剛體>().運動學 = false
         tempHouse.GetComponent<House>().down = true;                // 暫存房子.取得元件<房子>().是否降落中 = true
@@ -117,6 +130,7 @@ public class HouseManager : MonoBehaviour
 
         count++;                                                    // 房子總數遞增
         textHouseCount.text = "房子數量：" + count;                  // 蓋房子數量文字介面.文字 = "房子數量：" + 房子總數
+        tempHouse = null;                                           // 目前沒有房子
     }
 
     /// <summary>
@@ -154,6 +168,9 @@ public class HouseManager : MonoBehaviour
     /// </summary>
     public void GameOver()
     {
+        if (gameOver) return;                                         // 如果 遊戲結束 跳出
+        gameOver = true;                                              // 遊戲結束
+
         final.SetActive(true);                                         // 結算畫面.啟動設定(顯示)
 
         textCurrent.text = "本次數量：" + count;                       // 本次數量文字介面.文字 = "本次數量： + 房子總數
